@@ -49,9 +49,9 @@ export const listProducts = async ({
     ...(await getAuthHeaders()),
   }
 
-  const next = {
+  /**const next = {
     ...(await getCacheOptions("products")),
-  }
+  }**/
 
   return sdk.client
     .fetch<{ products: HttpTypes.StoreProduct[]; count: number }>(
@@ -67,8 +67,7 @@ export const listProducts = async ({
           ...queryParams,
         },
         headers,
-        next,
-        cache: "no-store", /**force-cache**/
+        next: { revalidate: 300 },
       }
     )
     .then(({ products, count }) => {
